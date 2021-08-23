@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import Input from "../input/Input";
 
 const LeaderBoard = () => {
   const [users, setUsers] = useState([]);
@@ -22,12 +23,33 @@ const LeaderBoard = () => {
     setnoOfElement(noOfElement + noOfElement);
   };
 
+  // using serach
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <div>
+      <Input setSearchTerm={setSearchTerm}></Input>
+
       <h1>Rakibull Islam</h1>
-      {slice.map((curElem) => {
-        return <h1>{curElem.name}</h1>;
-      })}
+      {slice
+        .filter((val) => {
+          if (searchTerm === "") {
+            return val;
+          } else if (
+            val.name.toLowerCase().includes(searchTerm.toLowerCase())
+          ) {
+            return val;
+          } else if (val.aum.toLowerCase().includes(searchTerm.toLowerCase())) {
+            return val;
+          }
+        })
+        .map((val) => {
+          return (
+            <div>
+              <h1>{val.name}</h1>
+              <p>{val.aum}</p>
+            </div>
+          );
+        })}
       <button onClick={() => loadMore()}>Load More</button>
     </div>
   );
